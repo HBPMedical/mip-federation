@@ -1,0 +1,8 @@
+---
+- name: managers leave the swarm
+  hosts: docker-manager-first
+  remote_user: skarvoun
+  become: yes
+  become_user: skarvoun
+  roles:
+    - docker-swarm-leave

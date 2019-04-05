@@ -1,0 +1,8 @@
+---
+- name: Join worker node in Swarm
+  shell: #TODO 
+  register: join
+  tags: swarm
+
+
+
