@@ -1,15 +1,32 @@
 ---
-- name: Run commands for docker swarm
-  hosts: docker-manager-first
-  remote_user: {{username}}
+- hosts: docker-manager-first
+  name: Initialize docker swarm
+  remote_user: {{ username }}
   become: yes
-  become_user: {{username}}
+  become_user: {{ username }}
   roles:
    - docker-swarm-init
 
-  hosts: workers
-  remote_user: {{username}}
+- hosts: workers
+  name: Join workers in swarm
+  remote_user: {{ username }}
   become: yes
-  become_user: {{username}}
+  become_user: {{ username }}
   roles:
    - docker-join-workers
+
+- hosts: docker-manager-first
+  name: Add label in nodes of Swarm
+  remote_user: {{ username }}
+  become: yes
+  become_user: {{ username }}
+  roles:
+   - docker-add-labels
+
+- hosts: docker-manager-first
+  name: Run Exareme
+  remote_user: {{ username }}
+  become: yes
+  become_user: {{ username }}
+  roles:
+   - docker-start-services

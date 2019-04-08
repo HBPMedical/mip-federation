@@ -22,8 +22,7 @@
   shell: docker swarm join-token --quiet worker
   register: worker_token
   tags: swarm
-  set_fact:
-    worker_token: "{{ worker_token }}"
+
 - name: Create swarm network
   shell: >
         docker network create 
@@ -36,15 +35,6 @@
   register: swarm_network
   tags: swarm
 
-#TODO loop when more than one Leaders
-- name: Add label name
-  shell: hostname
-  register: newName
-  tags: swarm
 
-- name: Get Hostname
-  shell: docker node update --label-add name={{newName.stdout}} {{newName.stdout}}
-  register: inspect
-  tags: swarm
 
 

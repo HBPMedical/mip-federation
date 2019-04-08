@@ -1,0 +1,10 @@
+- name: Get Hostname for each node
+  shell: docker node ls --format '{{ "{{" }}.Hostname{{ "}}" }}'
+  register: hostName
+  tags: swarm
+
+- name:  Add label name to each node
+  shell: docker node update --label-add name={{item}} {{item}}
+  with_items: 
+   - "{{ hostName.stdout_lines }}"
+

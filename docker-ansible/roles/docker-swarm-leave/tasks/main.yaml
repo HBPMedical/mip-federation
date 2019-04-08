@@ -1,5 +1,5 @@
 ---
-- name: Nodes Leaving the Swarm
+#TODO one role for leaving swarm [manager or worker]
+- name: Leaving Swarm
   shell: docker swarm leave -f
   ignore_errors: true
- 

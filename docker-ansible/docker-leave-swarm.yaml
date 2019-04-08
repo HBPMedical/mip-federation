@@ -1,8 +1,16 @@
 ---
-- name: managers leave the swarm
-  hosts: docker-manager-first
-  remote_user: skarvoun
+- hosts: docker-manager-first
+  name: Managers leave the swarm
+  remote_user: {{ username }}
   become: yes
-  become_user: skarvoun
+  become_user: {{ username }}
   roles:
-    - docker-swarm-leave
+   - docker-swarm-leave
+
+- hosts: workers
+  name: Workers leave the swarm
+  remote_user: {{ username }}
+  become: yes
+  become_user: {{ username }}
+  roles:
+   - docker-node-leave
