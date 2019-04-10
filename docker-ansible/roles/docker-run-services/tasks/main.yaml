@@ -1,0 +1,10 @@
+---
+- name: Exareme master
+  shell: docker stack deploy -c docker-compose-manager.yml dl038 #TODO
+  args:
+    chdir: {{ /path/to/yamlFile }}
+
+- name: Exareme worker
+  shell: docker stack deploy -c docker-compose-worker.yml dl044
+  args:
+    chdir: {{ /path/to/yamlFile }}

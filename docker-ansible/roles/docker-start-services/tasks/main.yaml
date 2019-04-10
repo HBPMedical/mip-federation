@@ -1,9 +1,0 @@
-- name: Run portainer.io
-  command: /home/skarvoun/mip-federation/portainer.sh
-  args:
-    chdir: /home/skarvoun/mip-federation/
-
-- name: Run start.sh 
-  shell: /home/skarvoun/mip-federation/start.sh all #TODO 
-  args:
-    chdir: /home/skarvoun/mip-federation/
