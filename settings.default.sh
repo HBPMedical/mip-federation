@@ -122,6 +122,8 @@
 
 # Internal dataset folder
 : ${DOCKER_DATASETS_FOLDER:="/root/exareme/datasets/"}
+: ${DOCKER_METADATA_FOLDER:="/root/exareme/datasets/"}
 
 # Host dataset folder
 : ${LOCAL_DATASETS_FOLDER:="/path/to/datasets/folder/"}
+: ${LOCAL_METADATA_FOLDER:="/path/to/variablesMetadata/folder/"}
