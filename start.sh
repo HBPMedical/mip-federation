@@ -66,7 +66,7 @@ start_node() {
 			exit 4
 		fi
 
-		if [ ! -f "${LOCAL_METADATA_FOLDER}"/variablesMetadata.json ]; then
+		if [ ! -f "${LOCAL_DATASETS_FOLDER}"/variablesMetadata.json ]; then
 			echo "The variablesMetadata.json file does not exist in the folder specified for the node ${FEDERATION_NODE} ."
 			exit 5
 		fi
