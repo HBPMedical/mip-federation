@@ -1,3 +1,4 @@
+---
 - name: Get Hostname for each node
   shell: docker node ls --format '{{ "{{" }}.Hostname{{ "}}" }}'
   register: hostName

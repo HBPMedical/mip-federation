@@ -10,3 +10,7 @@ pip install ansible
 
 
 all nodes should have python installed
+
+run : ansible-playbook -i hosts.ini docker-deploy.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username} -vvvv
+
+

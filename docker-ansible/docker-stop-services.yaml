@@ -1,8 +1,8 @@
 ---
-- hosts: all
-  name: Managers leave the swarm
+- hosts: docker-manager-first
+  name: Stop Exareme Services
   remote_user: {{ username }}
   become: yes
   become_user: {{ username }}
   roles:
-   - swarm-leave
+   - stop-services

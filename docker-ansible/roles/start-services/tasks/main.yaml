@@ -1,0 +1,21 @@
+---
+- name: Find Leader
+  shell: docker node ls -f "role=manager" --format '{{ "{{" }}.Hostname {{ "}}" }}'
+  register: leader
+
+#Todo if we have multiple masters and maybe leader.stdout -> leader.stdout_lines with_items?
+- name: Run Exareme master
+  shell: docker stack deploy -c docker-compose-manager.yml {{ leader.stdout }}
+  args:
+    chdir: /home/skarvoun/mip-federation/
+
+- name: Find Workers
+  shell: docker node ls -f "role=worker" --format '{{ "{{" }}.Hostname {{ "}}" }}'
+  register: workers
+
+- name: Run Exareme workers
+  shell: docker stack deploy -c docker-compose-worker.yml {{ item }}
+  with_items:
+  - "{{ workers.stdout_lines }}"
+  args:
+    chdir: /home/skarvoun/mip-federation/
