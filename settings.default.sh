@@ -121,7 +121,7 @@
 : ${DB_UI_LOCAL_SOURCES:="mip_cde_features harmonized_clinical_data"}
 
 # Internal dataset folder
-: ${DOCKER_DATASETS_FOLDER:="/root/exareme/datasets/"}
+: ${DOCKER_DATASETS_FOLDER:="/root/exareme/datasets"}
 
 # Host dataset folder
-: ${LOCAL_DATASETS_FOLDER:="/path/to/datasets/folder/"}
+: ${LOCAL_DATASETS_FOLDER:="/path/to/datasets/folder"}
