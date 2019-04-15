@@ -39,19 +39,19 @@ services:
       placement:
         constraints:
           - node.role == manager       # Ensures we only start on manager nodes
-          - node.labels.name == dl038
+          - node.labels.name == ${FEDERATION_NODE}
     networks:
       - "net-federation" # Connect the docker container to the global network
     ports:
       - "8500:8500"
 
   exareme-manager:
-    image: sofiakar/myexareme:filters
+    image: ${EXAREME_IMAGE}
     environment:
-      - CONSULURL=exareme-keystore:8500
-      - MASTER_FLAG=master
-      - NODE_NAME=dl038
-      - DOCKER_DATASETS_FOLDER=/root/exareme/datasets
+      - CONSULURL=${EXAREME_KEYSTORE}
+      - MASTER_FLAG=${FEDERATION_ROLE}
+      - NODE_NAME=${FEDERATION_NODE}
+      - DOCKER_DATASETS_FOLDER=${DOCKER_DATASETS_FOLDER}
     depends_on:
       - exareme-keystore
     deploy:
@@ -63,7 +63,7 @@ services:
       placement:
         constraints:
           - node.role == manager # Ensures we only start on manager nodes
-          - node.labels.name == dl038
+          - node.labels.name == ${FEDERATION_NODE}
     ports:
       - target: 9090     # So that we can access the Exareme REST API / interface
         published: 9090
@@ -72,4 +72,4 @@ services:
     networks:
       - "net-federation" # Connect the docker container to the global network
     volumes:
-            - "path:path"
+      - ${LOCAL_DATASETS_FOLDER}:${DOCKER_DATASETS_FOLDER}
