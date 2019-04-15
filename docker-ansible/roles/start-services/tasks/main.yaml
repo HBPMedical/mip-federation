@@ -8,6 +8,30 @@
   shell: docker stack deploy -c docker-compose-manager.yml {{ leader.stdout }}
   args:
     chdir: /home/skarvoun/mip-federation/
+  environment:
+    FEDERATION_NODE: "{{ leader.stdout }}"
+    FEDERATION_ROLE: "master"
+    EXAREME_IMAGE: "{{ EXAREME_IMAGE }}"
+    EXAREME_KEYSTORE: "{{ EXAREME_KEYSTORE }}"
+    DOCKER_DATASETS_FOLDER: "{{ DOCKER_DATASETS_FOLDER }}"
+    LOCAL_DATASETS_FOLDER: "{{ LOCAL_DATASETS_FOLDER }}"
+
+- name: Run Portainer
+  shell: >
+         test -d {{ PORTAINER_DATA }}
+         || mkdir -p {{ PORTAINER_DATA }}
+         || ( echo Failed to create {{ PORTAINER_DATA }}; exit 1 )
+
+- name: Run portainer service
+  shell: >
+         docker service create \
+         --publish mode=host,target={{ PORTAINER_PORT }},published=9000 \
+         --constraint 'node.role == manager' \
+         --detach=true \
+         --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+         --mount type=bind,src={{ PORTAINER_DATA }},dst=/data \
+         --name {{ COMPOSE_PROJECT_NAME }}_portainer \
+         {{ PORTAINER_IMAGE }}{{ PORTAINER_VERSION }}
 
 - name: Find Workers
   shell: docker node ls -f "role=worker" --format '{{ "{{" }}.Hostname {{ "}}" }}'
@@ -19,3 +43,9 @@
   - "{{ workers.stdout_lines }}"
   args:
     chdir: /home/skarvoun/mip-federation/
+  environment:
+    FEDERATION_NODE: "{{ item }}"
+    EXAREME_IMAGE: "{{ EXAREME_IMAGE }}"
+    EXAREME_KEYSTORE: "{{ EXAREME_KEYSTORE }}"
+    DOCKER_DATASETS_FOLDER: "{{ DOCKER_DATASETS_FOLDER }}"
+    LOCAL_DATASETS_FOLDER: "{{ LOCAL_DATASETS_FOLDER }}"

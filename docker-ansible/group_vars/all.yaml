@@ -1,0 +1,13 @@
+REMOTE_USER: {{ username }}
+BECOME_USER: {{ username }}
+EXAREME_IMAGE: "sofiakar/myexareme:filters"
+EXAREME_KEYSTORE: "exareme-keystore:8500"
+DOCKER_DATASETS_FOLDER: "/root/exareme/datasets/"
+LOCAL_DATASETS_FOLDER: "/home/skarvoun/data/"
+
+PORTAINER_DATA: "/home/skarvoun/mip-federation/portainer"
+PORTAINER_PORT: "9000"
+PORTAINER_IMAGE: "portainer/portainer"
+PORTAINER_VERSION: ":latest"
+PORTAINER_DATA: "/home/skarvoun/mip-federation/portainer"
+COMPOSE_PROJECT_NAME: "mip"
