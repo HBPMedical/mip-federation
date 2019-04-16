@@ -48,7 +48,8 @@ Errors: This script will exit with the following error codes:
  1	No arguments provided
  2	Federation node is incorrect
  3	Federation node role is incorrect
- 4  Datasets folder is not correct
+ 4	Datasets folder is not correct
+ 5	Metadata folder is not correct
 EOT
 }
 
@@ -63,6 +64,11 @@ start_node() {
 		if [ ! -f "${LOCAL_DATASETS_FOLDER}"/datasets.csv ]; then
 			echo "The datasets.csv file does not exist in the folder specified for the node ${FEDERATION_NODE} ."
 			exit 4
+		fi
+
+		if [ ! -f "${LOCAL_DATASETS_FOLDER}"/variablesMetadata.json ]; then
+			echo "The variablesMetadata.json file does not exist in the folder specified for the node ${FEDERATION_NODE} ."
+			exit 5
 		fi
 
 		# Finally deploy the stack
