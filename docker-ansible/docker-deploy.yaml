@@ -1,5 +1,5 @@
 ---
-- hosts: docker-manager-first
+- hosts: manager
   name: Initialize docker swarm
   remote_user: "{{ REMOTE_USER }}"
   become: yes
@@ -15,7 +15,7 @@
   roles:
    - join-workers
 
-- hosts: docker-manager-first
+- hosts: manager
   name: Add label in nodes of Swarm
   remote_user: "{{ REMOTE_USER }}"
   become: yes
