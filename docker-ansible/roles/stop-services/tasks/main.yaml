@@ -10,3 +10,11 @@
   args:
     chdir: /home/skarvoun/mip-federation/
 
+- name: Find Portainer ID
+  shell: docker service ls --filter name={{ COMPOSE_PROJECT_NAME }}_portainer --format '{{ "{{" }}.ID{{ "}}" }}'
+  register: portainer_id
+
+- name: Remove portainer ID
+  shell: docker service rm "{{ portainer_id.stdout }}"
+  register: portainer_rm
+  ignore_errors: true
