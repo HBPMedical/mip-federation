@@ -7,14 +7,14 @@
 - name: Run Exareme master
   shell: docker stack deploy -c docker-compose-manager.yml {{ leader.stdout }}
   args:
-    chdir: /home/skarvoun/mip-federation/
+    chdir: "{{ CHDIR }}"
   environment:
     FEDERATION_NODE: "{{ leader.stdout }}"
     FEDERATION_ROLE: "master"
     EXAREME_IMAGE: "{{ EXAREME_IMAGE }}"
     EXAREME_KEYSTORE: "{{ EXAREME_KEYSTORE }}"
-    DOCKER_DATASETS_FOLDER: "{{ DOCKER_DATASETS_FOLDER }}"
-    LOCAL_DATASETS_FOLDER: "{{ LOCAL_DATASETS_FOLDER }}"
+    DOCKER_DATASETS_FOLDER: "{{ docker_path }}"
+    LOCAL_DATASETS_FOLDER: "{{ local_path }}"
 
 - name: Run Portainer
   shell: >
@@ -32,20 +32,23 @@
          --mount type=bind,src={{ PORTAINER_DATA }},dst=/data \
          --name {{ COMPOSE_PROJECT_NAME }}_portainer \
          {{ PORTAINER_IMAGE }}{{ PORTAINER_VERSION }}
+  tags:
+    - portainer
 
 - name: Find Workers
   shell: docker node ls -f "role=worker" --format '{{ "{{" }}.Hostname {{ "}}" }}'
   register: workers
 
+
 - name: Run Exareme workers
-  shell: docker stack deploy -c docker-compose-worker.yml {{ item }}
-  with_items:
-  - "{{ workers.stdout_lines }}"
+  shell: docker stack deploy -c docker-compose-worker.yml {{ item.key }}
   args:
-    chdir: /home/skarvoun/mip-federation/
+    chdir: "{{ CHDIR }}"
   environment:
-    FEDERATION_NODE: "{{ item }}"
+    FEDERATION_NODE: "{{ item.key }}"
     EXAREME_IMAGE: "{{ EXAREME_IMAGE }}"
     EXAREME_KEYSTORE: "{{ EXAREME_KEYSTORE }}"
-    DOCKER_DATASETS_FOLDER: "{{ DOCKER_DATASETS_FOLDER }}"
-    LOCAL_DATASETS_FOLDER: "{{ LOCAL_DATASETS_FOLDER }}"
+    DOCKER_DATASETS_FOLDER: "{{ item.value.docker_path }}"
+    LOCAL_DATASETS_FOLDER: "{{ item.value.local_path }}"
+  with_dict: "{{ worker_vars }}"
+
