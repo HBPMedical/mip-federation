@@ -4,7 +4,7 @@
   register: leader
 
 #Todo if we have multiple masters and maybe leader.stdout -> leader.stdout_lines with_items?
-- name: Run Exareme master
+- name: Run Exareme Master
   shell: docker stack deploy -c docker-compose-manager.yml {{ leader.stdout }}
   args:
     chdir: "{{ CHDIR }}"
@@ -22,7 +22,7 @@
          || mkdir -p {{ PORTAINER_DATA }}
          || ( echo Failed to create {{ PORTAINER_DATA }}; exit 1 )
 
-- name: Run portainer service
+- name: Run Portainer Service
   shell: >
          docker service create \
          --publish mode=host,target={{ PORTAINER_PORT }},published=9000 \
@@ -35,20 +35,15 @@
   tags:
     - portainer
 
-- name: Find Workers
-  shell: docker node ls -f "role=worker" --format '{{ "{{" }}.Hostname {{ "}}" }}'
-  register: workers
-
-
-- name: Run Exareme workers
-  shell: docker stack deploy -c docker-compose-worker.yml {{ item.key }}
+- name: Run Exareme Workers
+  shell: docker stack deploy -c docker-compose-worker.yml {{ hostvars[item]['hostname'] }}
   args:
     chdir: "{{ CHDIR }}"
   environment:
-    FEDERATION_NODE: "{{ item.key }}"
+    FEDERATION_NODE: "{{ hostvars[item]['hostname'] }}"
     EXAREME_IMAGE: "{{ EXAREME_IMAGE }}"
     EXAREME_KEYSTORE: "{{ EXAREME_KEYSTORE }}"
-    DOCKER_DATASETS_FOLDER: "{{ item.value.docker_path }}"
-    LOCAL_DATASETS_FOLDER: "{{ item.value.local_path }}"
-  with_dict: "{{ worker_vars }}"
+    DOCKER_DATASETS_FOLDER: "{{ hostvars[item]['docker_path']}}"
+    LOCAL_DATASETS_FOLDER: "{{ hostvars[item]['local_path'] }}"
+  with_items: "{{ groups['workers'] }}"
 

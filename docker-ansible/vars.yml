@@ -1,5 +1,0 @@
----
-worker_vars:
-  dl044:    #TODO dynamic name {{ ?? }}
-    local_path: /home/skarvoun/data/
-    docker_path: /root/exareme/datasets/
