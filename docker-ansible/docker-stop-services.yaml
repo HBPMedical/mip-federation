@@ -1,6 +1,6 @@
 ---
 - hosts: manager
-  name: Stop Exareme Services
+  name: Stop Services
   remote_user: "{{ REMOTE_USER }}"
   become: yes
   become_user: "{{ BECOME_USER }}"

@@ -1,10 +1,11 @@
-
 REMOTE_USER: {{ username }}
 BECOME_USER: {{ username }}
+
 EXAREME_IMAGE: "sofiakar/myexareme:filters"
 EXAREME_KEYSTORE: "exareme-keystore:8500"
+
 CHDIR: "/home/skarvoun/mip-federation/"
-PORTAINER_DATA: "/home/skarvoun/mip-federation/portainer"
+
 PORTAINER_PORT: "9000"
 PORTAINER_IMAGE: "portainer/portainer"
 PORTAINER_VERSION: ":latest"

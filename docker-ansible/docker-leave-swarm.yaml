@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  name: Managers leave the swarm
+  name: Nodes Leave Swarm
   remote_user: "{{ REMOTE_USER }}"
   become: yes
   become_user: "{{ BECOME_USER }}"

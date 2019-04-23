@@ -1,6 +1,6 @@
 ---
 - hosts: manager
-  name: Initialize docker swarm
+  name: Initialize Docker Swarm
   remote_user: "{{ REMOTE_USER }}"
   become: yes
   become_user: "{{ BECOME_USER }}"
@@ -8,7 +8,7 @@
    - swarm-init
 
 - hosts: workers
-  name: Join workers in swarm
+  name: Join Workers In Swarm
   remote_user: "{{ REMOTE_USER }}"
   become: yes
   become_user: "{{ BECOME_USER }}"
@@ -16,7 +16,7 @@
    - join-workers
 
 - hosts: manager
-  name: Add label in nodes of Swarm
+  name: Add Label In Nodes Of Swarm
   remote_user: "{{ REMOTE_USER }}"
   become: yes
   become_user: "{{ BECOME_USER }}"

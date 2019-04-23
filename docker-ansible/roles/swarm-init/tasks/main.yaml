@@ -1,9 +1,8 @@
 ---
-- name: Check if Swarm has already been Initialized
+- name: Check If Swarm Has Already Been Initialized
   shell: docker node ls
   register: swarm_status
   ignore_errors: true
-  tags: swarm
 
 - name: Initialize Docker Swarm
   shell: >
@@ -11,19 +10,16 @@
         --advertise-addr={{ ansible_host }}
   when: swarm_status.rc != 0
   run_once: true
-  tags: swarm
 
-- name: Get the Manager join-token
+- name: Get The Manager join-token
   shell: docker swarm join-token --quiet manager
   register: manager_token
-  tags: swarm
 
-- name: Get the worker join-token
+- name: Get The Worker join-token
   shell: docker swarm join-token --quiet worker
   register: worker_token
-  tags: swarm
 
-- name: Create swarm network
+- name: Create Swarm Network
   shell: >
         docker network create 
         --driver=overlay 
@@ -33,7 +29,6 @@
         --gateway=10.20.30.254 
         mip-federation
   register: swarm_network
-  tags: swarm
 
 
 
