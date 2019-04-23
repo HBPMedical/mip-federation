@@ -11,6 +11,17 @@ pip install ansible
 
 all nodes should have python installed
 
-run : ansible-playbook -i hosts.ini docker-deploy.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username} -vvvv
+Step 1)
+Change: ansible_host,hostname,local_path from hosts.ini
+Change: REMOTE_USER,BECOME_USER,CHDIR (the path to mip-federation folder in your manager remote node),PORTAINER_DATA
+(the path to portainer folder in your manager remote node)
 
+run :
+ansible-playbook -i hosts.ini docker-deploy.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
+ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
+if you do not want to start portainer service you must exclude tag portainer:
+ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} --skip-tags portainer -vvvv
 
+stop:
+ansible-playbook -i hosts.ini docker-stop-services.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
+ansible-playbook -i hosts.ini docker-leave-swarm.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
