@@ -1,9 +1,9 @@
 REMOTE_USER: {{ username }}
 BECOME_USER: {{ username }}
 
-EXAREME_IMAGE: "sofiakar/myexareme:filters"
+EXAREME_IMAGE: "sofiakar/myexareme:ID3"
 EXAREME_KEYSTORE: "exareme-keystore:8500"
-
+DOCKER_PATH: "/root/exareme/datasets"
 CHDIR: "/home/skarvoun/mip-federation/"
 
 PORTAINER_PORT: "9000"
