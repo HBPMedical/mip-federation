@@ -10,6 +10,7 @@ pip install ansible
 
 
 all nodes should have python installed
+sudo apt-get install python
 
 Step 1)
 Change: ansible_host,hostname,local_path from hosts.ini
@@ -17,11 +18,15 @@ Change: REMOTE_USER,BECOME_USER,CHDIR (the path to mip-federation folder in your
 (the path to portainer folder in your manager remote node)
 
 run :
-ansible-playbook -i hosts.ini docker-deploy.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
-ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
+ansible-playbook -i hosts.ini docker-deploy.yaml -c paramiko --ask-pass --ask-become-pass  -vvvv
+ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass -vvvv
 if you do not want to start portainer service you must exclude tag portainer:
-ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} --skip-tags portainer -vvvv
+ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass --skip-tags portainer -vvvv
 
 stop:
-ansible-playbook -i hosts.ini docker-stop-services.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
-ansible-playbook -i hosts.ini docker-leave-swarm.yaml -c paramiko --ask-pass --ask-become-pass -u {{ username }} -vvvv
+ansible-playbook -i hosts.ini docker-stop-services.yaml -c paramiko --ask-pass --ask-become-pass  -vvvv
+If you only want to stop portainer you can do so by:
+ansible-playbook -i hosts.ini docker-stop-services.yaml -c paramiko --ask-pass --ask-become-pass --skip-tags exareme -vvvv
+Or If you only want to stop exareme services and keep portainer running you can do so by:
+ansible-playbook -i hosts.ini docker-stop-services.yaml -c paramiko --ask-pass --ask-become-pass --skip-tags portainer -vvvv
+ansible-playbook -i hosts.ini docker-leave-swarm.yaml -c paramiko --ask-pass --ask-become-pass -vvvv
