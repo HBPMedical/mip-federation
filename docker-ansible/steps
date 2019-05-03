@@ -16,8 +16,12 @@ Step 1)
 Change: ansible_host,hostname,local_path from hosts.ini
 Change: REMOTE_USER,BECOME_USER,CHDIR (the path to mip-federation folder in your manager remote node),PORTAINER_DATA
 (the path to portainer folder in your manager remote node)
+METADATA_PATH the path to your local host where variablesMetadata.json exists
 
 run :
+For every node to get the metadata file. You can run this playbook again when changes occur so every node to get the changes
+ansible-playbook -i hosts.ini metadata.yaml -c paramiko --ask-pass --ask-become-pass  -vvvv
+
 ansible-playbook -i hosts.ini docker-deploy.yaml -c paramiko --ask-pass --ask-become-pass  -vvvv
 ansible-playbook -i hosts.ini docker-start-services.yaml -c paramiko --ask-pass --ask-become-pass -vvvv
 if you do not want to start portainer service you must exclude tag portainer:

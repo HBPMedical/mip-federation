@@ -22,7 +22,3 @@
   become_user: "{{ BECOME_USER }}"
   roles:
    - add-labels
-
-
-
-
