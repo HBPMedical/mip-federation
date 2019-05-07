@@ -22,3 +22,11 @@
   become_user: "{{ BECOME_USER }}"
   roles:
    - add-labels
+
+- hosts: manager
+  name: Copy Folder Containing The docker-compose Files
+  remote_user: "{{ REMOTE_USER }}"
+  become: yes
+  become_user: "{{ BECOME_USER }}"
+  roles:
+   - copy-directory
